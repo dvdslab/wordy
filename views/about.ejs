@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<%- include('../partials/head') %>
+
+<body class="d-flex flex-column min-vh-200 text-center text-white bg-black ">
+
+    <div class="mb-a">
+        <!-- header -->
+        <div class=" bg-dark">
+            <div class="container">
+                <header
+                    class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
+                    <a href="/"
+                        class="d-flex align-items-center col-md-3 col-sm-12 mb-2 mb-md-0 text-white text-decoration-none fs-4 font-monospace justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor"
+                            class="bi bi-chat-right-text-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z" />
+                        </svg>WORDY
+                    </a>
+
+                    <ul class="nav nav-pills col-12 col-md-auto col-sm-6 mb-2 justify-content-center mb-md-0">
+                        <li><a href="/" class="nav-link px-2  text-white">Home</a></li>
+                        <li><a href="/posts/new_post" class="nav-link px-2 text-white">New Post</a></li>
+                        <li><a href="/about" class="nav-link px-2 bg-white text-secondary active">About Us</a></li>
+                    </ul>
+
+                    <div class="col-md-3 col-sm-6 text-end">
+                        <a href="#" class="btn btn-outline-light me-2">Sign In</a>
+                        <a href="/SignUp" class="btn btn-info">Sign Up</a>
+                    </div>
+                </header>
+            </div>
+        </div>
+
+        <main class="px-3">
+            <div class="container py-5">
+                <h1>About Wordy</h1>
+                <p class="lead">Wordy is a mini blog that is built with NdeJS on top of the express framework.
+                    Wordy
+                    allows anyone, like you, to publish blogs without having to undergo any validation</p>
+                <p class="lead">
+                    <a href="/posts/new_post" class="btn btn-lg btn-secondary fw-bold">Publish A Post</a>
+                </p>
+            </div>
+        </main>
+
+        <!-- footer -->
+        <div class="container-fluid bg-black navbar navbar-default navbar-static-bottom"
+            style="position: fixed; bottom: 0; justify-content: center; display: block;">
+            <footer class="py-3">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3 ">
+                    <li class="nav-item"><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+                    <li class="nav-item"><a href="/posts/new_post" class="nav-link px-2 link-secondary">New Post</a>
+                    </li>
+                    <!-- <li class="nav-item"><a href="#" class="nav-link px-2 link-secondary">Pricing</a></li> -->
+                    <li class="nav-item"><a href="/about" class="nav-link px-2 link-secondary">About Us</a></li>
+                    <!-- <li class="nav-item"><a href="#" class="nav-link px-2 link-secondary">About</a></li> -->
+                </ul>
+                <p class="text-center text-muted">&copy; 2021 Company, Inc</p>
+            </footer>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>
