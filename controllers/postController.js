@@ -30,15 +30,20 @@ const publish_new_post = async (req, res) => {
 
 const get_single_post = async (req, res) => {
   let login = false;
+  let currentUser = {};
   if (req.session.user) {
     login = true;
+    currentUser = await UserModel.findOne({
+      username: req.session.user.username,
+    });
   }
   const id = req.params.id;
   Post.findById(id)
-    .then((result) => {
+    .then((post) => {
       res.render("post", {
-        post: result,
-        login: login,
+        post,
+        login,
+        currentUser,
       });
     })
     .catch((error) => {
