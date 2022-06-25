@@ -1,40 +1,29 @@
-const express = require("express");
-const { Post } = require("../models/post");
-const mainRouter = express.Router();
+const { Router } = require("express");
+const { isAuth } = require("../middlewares/session");
+const mainController = require("../controllers/mainController");
+const mainRouter = Router();
 
 // Homepage
-mainRouter.get("/", (req, res) => {
-  Post.find()
-    .sort({ createdAt: -1 })
-    .then((result) => {
-      // console.log(result);
-      res.render("home", { posts: result });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
+mainRouter.get("/", mainController.homepage_route);
 // About route
-mainRouter.get("/about", (req, res) => {
-  res.status(200).render("about");
-});
+mainRouter.get("/about", mainController.about_route);
+// SignIn route
+mainRouter.get("/SignIn", mainController.signin_route);
+// VALIDATING USERS IN THE SIGNIN PAGE
+mainRouter.post("/SignIn", mainController.validating_users);
+// SIGNUP ROUTE
+mainRouter.get("/SignUp", mainController.signup_route);
+// SigningUp
+mainRouter.post("/SignUp", mainController.SigningUp);
+// mainRouter.post("/SignUp", (req, res) => {});
 
-mainRouter.get("/SignUp", (req, res) => {
-  res.status(200).render("SignUp");
-});
-
-mainRouter.get("/SignIn", (req, res) => {
-  res.status(200).render("SignIn");
-});
-
-mainRouter.get("/dashboard", (req, res) => {
-  res.status(200).render("dashboard");
-});
+// DASHBOARD ROUTE
+mainRouter.get("/dashboard/:userId", isAuth, mainController.dashboard_route);
+// logout post request
+mainRouter.post("/logOut", mainController.Logout);
 
 // 404 page
-mainRouter.all("*", (req, res) => {
-  res.status(404).render("404");
-});
+mainRouter.all("*", mainController.for04_page);
 
 // exporting the main router
 

@@ -56,10 +56,37 @@
                     <li><a href="/about" class="nav-link px-2 text-white">About Us</a></li>
                 </ul>
 
-                <div class="col-md-3 col-sm-6 text-end">
-                    <a href="#" class="btn btn-outline-light me-2">Sign In</a>
-                    <a href="/SignUp" class="btn btn-info">Sign-up</a>
+                <% if(login) { %>
+                <!-- PROFILE PHOTO DROPDOWN -->
+                <div class="col-md-3 dropdown text-end">
+                    <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
+                        aria-labelledby=" dropdownUser1">
+                        <li><a class="dropdown-item text-center" href="/">Home</a></li>
+                        <li><a class="dropdown-item" href="/posts/new_post">New Post</a></li>
+                        <li><a class="dropdown-item" href="/about">About Us</a></li>
+                        <li><a class="dropdown-item" href="/dashboard/<%= currentUser.username %>">dashboard</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a>
+                                <form class="d-grid gap-2 col-6 mx-auto" action="/logOut" method="POST">
+                                    <button class="btn btn-danger">log out</button>
+                                </form>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
+                <% } else {%>
+                <div class="col-md-3 col-sm-6 text-end">
+                    <a href="/SignIn" class="btn btn-outline-light me-2">Sign In</a>
+                    <a href="/SignUp" class="btn btn-info">Sign Up</a>
+                </div>
+                <% }  %>
             </header>
         </div>
     </div>

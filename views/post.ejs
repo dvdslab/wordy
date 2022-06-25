@@ -53,14 +53,43 @@
                 <ul class="nav nav-pills col-12 col-md-auto col-sm-6 mb-2 justify-content-center mb-md-0">
                     <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
                     <li><a href="/posts/post" class="nav-link px-2 bg-white text-secondary active">Posts</a></li>
+                    <% if(login) { %>
                     <li><a href="/posts/new_post" class="nav-link px-2 text-white">New Post</a></li>
+                    <% } %>
                     <li><a href="/about" class="nav-link px-2 text-white">About Us</a></li>
                 </ul>
 
-                <div class="col-md-3 col-sm-6 text-end">
-                    <a href="#" class="btn btn-outline-light me-2">Sign In</a>
-                    <a href="/SignUp" class="btn btn-info">Sign-up</a>
+                <% if(login) { %>
+                <!-- PROFILE PHOTO DROPDOWN -->
+                <div class="col-md-3 dropdown text-end">
+                    <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
+                        aria-labelledby=" dropdownUser1">
+                        <li><a class="dropdown-item text-center" href="/">Home</a></li>
+                        <li><a class="dropdown-item" href="/posts/new_post">New Post</a></li>
+                        <li><a class="dropdown-item" href="/about">About Us</a></li>
+                        <li><a class="dropdown-item" href="/dashboard/<%= currentUser.username %>">dashboard</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a>
+                                <form class="d-grid gap-2 col-6 mx-auto" action="/logOut" method="POST">
+                                    <button class="btn btn-danger">log out</button>
+                                </form>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
+                <% } else {%>
+                <div class="col-md-3 col-sm-6 text-end">
+                    <a href="/SignIn" class="btn btn-outline-light me-2">Sign In</a>
+                    <a href="/SignUp" class="btn btn-info">Sign Up</a>
+                </div>
+                <% }  %>
             </header>
         </div>
     </div>
@@ -69,19 +98,19 @@
     <main>
 
         <!-- Posts -->
-        <div class="bg-black text-secondary px-4 py-5 text-center" style="min-height: 744px;">
+        <div class="bg-black text-secondary px-4 py-5 text-start" style="min-height: 744px;">
             <div class="py-5">
-                <h1 class="display-5 fw-bold text-white"><%= post.title %></h1>
-                <div class="col-lg-6 mx-auto">
+                <h1 class="display-5 fw-bold text-white col-lg-8 mx-auto""><%= post.title %></h1>
+                <div class=" col-lg-8 mx-auto">
                     <p class="fs-5 mb-4"><%= post.content %></p>
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a class="btn btn-outline-danger btn-lg px-4 me-sm-3 fw-bold" type="button" id="delete"
+                        <a class="btn btn-outline-danger btn-lg px-4 fw-bold me-auto type=" button" id="delete"
                             data-postid="<%= post._id %>">Delete</a>
                         <a href="/posts/update_post/<%= post._id %>" class="btn btn-warning btn-lg px-4 me-sm-3 fw-bold"
                             type="button">Update</a>
                     </div>
-                </div>
             </div>
+        </div>
         </div>
     </main>
 
