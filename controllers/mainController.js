@@ -46,10 +46,14 @@ const about_route = async (req, res) => {
 // Signin route
 const signin_route = async (req, res) => {
   let login = false;
+  let currentUser = {};
   if (req.session.user) {
     login = true;
+    currentUser = await UserModel.findOne({
+      username: req.session.user.username,
+    });
   }
-  return res.status(200).render("SignIn", { login });
+  return res.status(200).render("SignIn", { login, currentUser });
 };
 
 // validating users
@@ -121,11 +125,13 @@ const dashboard_route = async (req, res) => {
     username: req.session.user.username,
   });
   // CHECK WhETHER USER EXIT(I don't think thiis is nessecary, 'cause of i've done it in the SignUp endpoint)
-
-  Post.find()
+  //
+  const author = req.session.user._id;
+  omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
+  Post.find({ author: omo })
+    .populate("author")
     .sort({ createdAt: -1 })
     .then((posts) => {
-      // console.log(result);
       return res.status(200).render("dashboard", {
         currentUser,
         posts,

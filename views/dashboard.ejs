@@ -91,7 +91,7 @@
         </section>
 
         <section class="px-2" style="background-color:black">
-            <div class="row">
+            <div class="row" style="margin-right: 0px;">
                 <div class=" mx-auto">
                     <!-- Profile widget -->
                     <div class="bg-black shadow rounded overflow-hidden">
@@ -102,8 +102,7 @@
                                         alt="display picture" width="130" class="rounded mb-2 ">
                                 </div>
                                 <div class="media-body mb-5 text-white">
-                                    <h4 class="mt-0 mb-0">Mark Williams</h4>
-                                    <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>
+                                    <h4 class="mt-0 mb-0"><%= currentUser.username %></h4>
                                 </div>
                             </div>
                         </div>
@@ -137,10 +136,11 @@
                                         <p class="font-italic mb-0">Photographer</p>
                                     </div>
                                 </div> -->
-                        <div class="container-fluid row align-items-md-stretch p-3 bg-black" style="margin: 0px;">
+                        <div class="container-fluid row align-items-md-stretch p-3 bg-black"
+                            style="margin: 0px; min-height: 458.9px;">
                             <!-- for -->
                             <% posts.forEach(post =>{ %>
-                            <div class="col-md-6 col-xl-3" style="padding: 12px;">
+                            <div class="col-md-6 col-xl-3" style="padding: 12px; ">
                                 <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-25">
                                     <h2 class="text-white"><%= post.title %></h2>
                                     <p class="text-secondary"><%= post.snippet %></p>

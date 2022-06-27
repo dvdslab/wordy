@@ -18,7 +18,7 @@ mainRouter.post("/SignUp", mainController.SigningUp);
 // mainRouter.post("/SignUp", (req, res) => {});
 
 // DASHBOARD ROUTE
-mainRouter.get("/dashboard/:userId", isAuth, mainController.dashboard_route);
+mainRouter.get("/dashboard/:id", isAuth, mainController.dashboard_route);
 // logout post request
 mainRouter.post("/logOut", mainController.Logout);
 

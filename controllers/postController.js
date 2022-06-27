@@ -19,8 +19,9 @@ const get_new_post_form = async (req, res) => {
 const publish_new_post = async (req, res) => {
   // save data to the database
   try {
-    // req.body.author = req.session.user._id;
-    const post = new Post(req.body);
+    const post = new Post(
+      Object.assign(req.body, { author: req.session.user._id })
+    );
     result = await post.save();
     res.redirect("/");
   } catch (error) {
@@ -63,14 +64,14 @@ const get_update_post_form = async (req, res) => {
   }
   const id = req.params.id;
   Post.findById(id)
-    .then((posts) => {
+    .then((post) => {
       // CHECK IF AUTHOR IS CURRENT USER IN SESSION
-      if (result.author != req.session.user._id) {
-        // CHECK THIS INTO AN ERROR NOT A REDIRECT
-        return res.redirect("/dashboard/" + req.session.user._id);
-      }
+      // if (post.author != req.session.user._id) {
+      //   // CHECK THIS INTO AN ERROR NOT A REDIRECT
+      //   return res.redirect("/dashboard/" + req.session.user.username);
+      // }
       res.render("update_post", {
-        posts,
+        post,
         login,
         currentUser,
       });

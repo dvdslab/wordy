@@ -18,7 +18,7 @@ const newSession = session({
   saveUninitialized: false,
   store: store,
   cookie: {
-    maxAge: 24 * 60 * 60,
+    maxAge: +30 * 24 * 60 * 60,
   },
 });
 
