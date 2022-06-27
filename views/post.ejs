@@ -100,17 +100,17 @@
         <!-- Posts -->
         <div class="bg-black text-secondary px-4 py-5 text-start" style="min-height: 744px;">
             <div class="py-5">
-                <h1 class="display-5 fw-bold text-white col-lg-8 mx-auto""><%= post.title %></h1>
+                <h1 class="display-5 fw-bold text-white col-lg-8 mx-auto"><%= post.title %></h1>
                 <div class=" col-lg-8 mx-auto">
-                    <p class="fs-5 mb-4"><%= post.content %></p>
+                    <p class="fs-5 mb-4" style="white-space: pre-line;"><%= post.content %></p>
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a class="btn btn-outline-danger btn-lg px-4 fw-bold me-auto type=" button" id="delete"
+                        <a class="btn btn-outline-danger btn-lg px-4 me-sm-3 fw-bold type=" button" id="delete"
                             data-postid="<%= post._id %>">Delete</a>
                         <a href="/posts/update_post/<%= post._id %>" class="btn btn-warning btn-lg px-4 me-sm-3 fw-bold"
                             type="button">Update</a>
                     </div>
+                </div>
             </div>
-        </div>
         </div>
     </main>
 
