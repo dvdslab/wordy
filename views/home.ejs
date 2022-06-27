@@ -72,7 +72,8 @@
                             <li><a class="dropdown-item text-center" href="/">Home</a></li>
                             <li><a class="dropdown-item" href="/posts/new_post">New Post</a></li>
                             <li><a class="dropdown-item" href="/about">About Us</a></li>
-                            <li><a class="dropdown-item" href="/dashboard/<%= currentUser.username %>">dashboard</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/<%= currentUser.username %>">dashboard</a>
+                            </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -98,6 +99,15 @@
 
         <!-- hero -->
         <div class="bg-black text-secondary px-4 py-5 text-center">
+            <% if(login) {%>
+            <div class="py-5">
+                <h1 class="display-5 fw-bold text-white">Welcome back <%= currentUser.username %>!</h1>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center py-3">
+                    <a href="/posts/new_post" class="btn btn-secondary btn-lg px-4 me-sm-3 fw-bold">Publish A
+                        Post</a>
+                </div>
+            </div>
+            <% }else{ %>
             <div class="py-5">
                 <h1 class="display-5 fw-bold text-white">Welcome to Wordy</h1>
                 <div class="col-lg-6 mx-auto">
@@ -105,26 +115,15 @@
                         Wordy
                         allows anyone, like you, to publish blogs without having to undergo any validation</p>
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <% if(login) {%>
-                        <a href="/posts/new_post" class="btn btn-secondary btn-lg px-4 me-sm-3 fw-bold">Publish A
-                            Post</a>
-                        <% }else{ %>
                         <a href="/SignIn" class="btn btn-secondary btn-lg px-4 me-sm-3 fw-bold">Sign In</a>
-                        <% } %>
                     </div>
                 </div>
             </div>
+            <% } %>
         </div>
 
         <!-- blog posts -->
         <div class="container-fluid row align-items-md-stretch p-3 bg-black" style="margin: 0px;">
-            <!-- <div class="col-md-6">
-        <div class="h-100 p-5 text-white bg-dark rounded-3">
-          <h2>Change the background</h2>
-          <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-          <button class="btn btn-outline-light" type="button">Example button</button>
-        </div>
-      </div> -->
 
             <!-- for -->
             <% posts.forEach(post =>{ %>
