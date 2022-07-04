@@ -38,6 +38,14 @@ const get_single_post = async (req, res) => {
       username: req.session.user.username,
     });
   }
+  // what i'm trying to do here is match the author id th the id in session
+
+  // const author = await req.session.user._id;
+  // omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
+  // console.log(omo);
+
+  // tina = await Post.find({id: req})
+
   const id = req.params.id;
   Post.findById(id)
     .then((post) => {
@@ -70,6 +78,7 @@ const get_update_post_form = async (req, res) => {
       //   // CHECK THIS INTO AN ERROR NOT A REDIRECT
       //   return res.redirect("/dashboard/" + req.session.user.username);
       // }
+
       res.render("update_post", {
         post,
         login,

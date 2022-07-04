@@ -61,23 +61,30 @@ const signin_route = async (req, res) => {
 const validating_users = async (req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
-
-  if (!user) {
-    return res.redirect("/SignIn");
-  }
-
   const isMatch = await bcrypt.compare(password, user.password);
-
-  if (!isMatch) {
+  if (!user || !isMatch) {
+    req.session.message = {
+      type: "danger",
+      intro: "Invalid credentials",
+      message: "Please make sure to enter the correct credentials",
+      sign: "exclamation-triangle-fill",
+    };
     return res.redirect("/SignIn");
+  } else {
+    req.session.message = {
+      type: "success",
+      intro: "You are now logged in",
+      message: "Welcome back",
+      sign: "check-circle-fill",
+    };
+    req.session.user = {
+      username: user.username,
+      name: user.name,
+      _id: user._id,
+      email: user.email,
+    };
+    return res.redirect("/dashboard/" + user.username);
   }
-  req.session.user = {
-    username: user.username,
-    name: user.name,
-    _id: user._id,
-    email: user.email,
-  };
-  return res.redirect("/dashboard/" + user.username);
 };
 
 // signUp route
@@ -94,12 +101,44 @@ const SigningUp = async (req, res) => {
   const { email, password } = req.body;
   const emailExist = await UserModel.findOne({ email });
 
-  if (emailExist) {
-    res.redirect("/SignUp").status(400).json({
-      status: false,
-      error: "EMAIL_DUPLICATE",
-      message: "That email is alredy in use",
-    });
+  /* It's checking whether the user has filled all the fields, if not, it will return a message. */
+  if (
+    req.body.username == "" ||
+    req.body.name == "" ||
+    req.body.email == "" ||
+    req.body.password == ""
+  ) {
+    req.session.message = {
+      type: "danger",
+      intro: "Enter fields",
+      message: "Please fill all the fields",
+      sign: "exclamation-triangle-fill",
+    };
+    return res.redirect("/SignUp");
+  } else if (emailExist) {
+    req.session.message = {
+      type: "danger",
+      intro: "Email already exists 😒",
+      message: "Please enter a new email",
+      sign: "exclamation-triangle-fill",
+    };
+    return res.redirect("/SignUp");
+  } else if (req.body.password != req.body.confirm) {
+    req.session.message = {
+      type: "primary",
+      intro: "Passwords do not match! ",
+      message: "Please make sure to insert the same password.",
+      sign: "info-fill",
+    };
+    return res.redirect("/SignUp");
+  } else {
+    req.session.message = {
+      type: "success",
+      intro: "You are now registered! ",
+      message: "Please sign in to continue",
+      sign: "check-circle-fill",
+    };
+    res.redirect("/SignUp");
   }
 
   // Hash paswords
@@ -114,7 +153,6 @@ const SigningUp = async (req, res) => {
   });
   try {
     await user.save();
-    res.redirect("/SignIn");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -124,8 +162,12 @@ const dashboard_route = async (req, res) => {
   const currentUser = await UserModel.findOne({
     username: req.session.user.username,
   });
-  // CHECK WhETHER USER EXIT(I don't think thiis is nessecary, 'cause of i've done it in the SignUp endpoint)
-  //
+  req.session.message = {
+    type: "success",
+    intro: "You are now registered! ",
+    message: "Please sign in to continue",
+    sign: "check-circle-fill",
+  };
   const author = req.session.user._id;
   omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
   Post.find({ author: omo })

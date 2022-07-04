@@ -103,12 +103,20 @@
                 <h1 class="display-5 fw-bold text-white col-lg-8 mx-auto"><%= post.title %></h1>
                 <div class=" col-lg-8 mx-auto">
                     <p class="fs-5 mb-4" style="white-space: pre-line;"><%= post.content %></p>
+                    <% if(login) { %>
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                         <a class="btn btn-outline-danger btn-lg px-4 me-sm-3 fw-bold type=" button" id="delete"
                             data-postid="<%= post._id %>">Delete</a>
                         <a href="/posts/update_post/<%= post._id %>" class="btn btn-warning btn-lg px-4 me-sm-3 fw-bold"
                             type="button">Update</a>
                     </div>
+                    <% } else {%>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                        <a class="btn btn-outline-danger btn-lg px-4 me-sm-3 fw-bold type=" button" id=""
+                            data-postid="<%= post._id %>">like</a>
+                        <a href="" class="btn btn-warning btn-lg px-4 me-sm-3 fw-bold" type="button">Comment</a>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>
