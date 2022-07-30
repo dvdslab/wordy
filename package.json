@@ -2,7 +2,7 @@
   "name": "wordy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "wordy.js",
   "scripts": {
     "start": "nodemon wordy"
   },
@@ -13,6 +13,8 @@
     "@hapi/joi": "^17.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "bootstrap-icons": "^1.9.1",
+    "cloudinary": "^1.30.1",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
     "cookie-parser": "^1.4.5",
@@ -25,6 +27,7 @@
     "express-validator": "^6.12.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.5",
+    "multer": "^1.4.5-lts.1",
     "uuid": "^8.3.2",
     "uuidv1": "^1.6.14"
   },
