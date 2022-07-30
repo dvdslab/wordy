@@ -5,6 +5,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
     min: 6,
     max: 255,
   },
@@ -26,10 +27,30 @@ const userSchema = new Schema({
     min: 6,
     max: 1024,
   },
+  bio: {
+    type: String,
+    required: false,
+    min: 6,
+    max: 1024,
+  },
+  following: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  followers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   avatar: {
     type: String,
-    // required: true,
-    min: 1,
+    max: 1,
+  },
+  cloudinary_id: {
+    type: String,
     max: 1,
   },
   date: {

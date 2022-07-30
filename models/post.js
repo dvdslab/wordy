@@ -15,6 +15,23 @@ const post_schema = new Schema(
       type: String,
       required: true,
     },
+    comments: [
+      {
+        comment: {
+          type: String,
+          required: true,
+        },
+        author: {
+          type: String,
+        },
+      },
+    ],
+    like: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "author",
+      },
+    ],
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

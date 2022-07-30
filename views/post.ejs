@@ -64,7 +64,7 @@
                 <div class="col-md-3 dropdown text-end">
                     <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <img src="<%= currentUser.avatar %>" alt="mdo" width="32" height="32" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
                         aria-labelledby=" dropdownUser1">
@@ -100,74 +100,151 @@
         <!-- Posts -->
         <div class="bg-black text-secondary px-4 py-5 text-start" style="min-height: 744px;">
             <div class="py-5">
-                <h1 class="display-5 fw-bold text-white col-lg-8 mx-auto"><%= post.title %></h1>
-                <div class=" col-lg-8 mx-auto">
-                    <p class="fs-5 mb-4" style="white-space: pre-line;"><%= post.content %></p>
-                    <% if(login) { %>
-                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a class="btn btn-outline-danger btn-lg px-4 me-sm-3 fw-bold type=" button" id="delete"
-                            data-postid="<%= post._id %>">Delete</a>
-                        <a href="/posts/update_post/<%= post._id %>" class="btn btn-warning btn-lg px-4 me-sm-3 fw-bold"
+                <h2 class=" fw-bold text-white col-lg-9 mx-auto"><%= post.title %></h2>
+                <div class="text-secondary mb-5 col-lg-9 mx-auto">
+                    <span>by: </span>
+                    <a href="/dashboard/<%= post.author.username %>" class="text-decoration-none text-secondary">
+                        <%= post.author.username %>
+                    </a>
+                </div>
+                <div class="col-lg-9 px-5 py-3 mx-auto bg-dark bg-opacity-25 rounded-3">
+                    <div>
+                        <p class="fs-5 mb-4 text-white" style=" white-space: pre-line;"><%= post.content %></p>
+                    </div>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-left p-3">
+                        <% if(post.like.includes(currentUser._id)){ %>
+                        <a type="button" class="likeicon clickedlikeicon" id="botin" data-postid="<%= post._id %>">
+                            <!-- like icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" class="bi bi-heart-fill"
+                                viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                            </svg>
+                            <!-- like count -->
+                            <span class="text-white">
+                                <spam class="likeCount"><%= post.like.length %></spam>
+                            </span>
+                        </a>
+                        <% } else { %>
+                        <a type="button" class="likeicon" id="botin" data-postid="<%= post._id %>">
+                            <!-- like icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" class="bi bi-heart-fill"
+                                viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                            </svg>
+                        </a>
+                        <!-- like count -->
+                        <span class="text-white"><small class="likeCount"><%= post.like.length %></small></span>
+                        <% } %>
+                    </div>
+                    <% if(login){%>
+                    <% if(currentUser._id.toString() == post.author._id.toString()) { %>
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-between">
+                        <a class="btn btn-outline-danger px-4 fw-bold" type=" button" id="delete">Delete</a>
+                        <a href="/posts/update_post/<%= post._id %>" class="btn btn-warning px-4 fw-bold"
                             type="button">Update</a>
                     </div>
-                    <% } else {%>
-                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a class="btn btn-outline-danger btn-lg px-4 me-sm-3 fw-bold type=" button" id=""
-                            data-postid="<%= post._id %>">like</a>
-                        <a href="" class="btn btn-warning btn-lg px-4 me-sm-3 fw-bold" type="button">Comment</a>
+                    <% } %>
+                    <% } %>
+                </div>
+                <!-- comment form -->
+                <% if(login){ %>
+                <div class="card col-lg-8 mx-auto bg-dark bg-opacity-25 my-5">
+                    <h6 class="col-lg-12 col-md-12 col-sm-12 mx-auto card-header text-white">Leave a Comment: </h6>
+                    <div class="col-lg-12 col-md-12 col-sm-12 card-body bg-dark bg-opacity-25">
+                        <form class="d-grid gap-2" action="/posts/comment/<%= post._id %>" method="POST">
+                            <input type="hidden" name="post_id" value="<%= post._id %>" />
+                            <div class="form-group">
+                                <textarea class="form-control bg-dark text-white border-0" id="comment" name="comment"
+                                    rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-secondary d-grid gap-2 col-3 ms-auto">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <% } %>
+                <!-- displaying comment-->
+                <div class="col-lg-8 mx-auto pt-1">
+                    <% if(post.comments.length > 0){ %>
+                    <h6 class="col-lg-12 mx-auto card-header text-white">Comments: </h6>
+
+                    <% } else if(!login){ %>
+                    <h6 class="col-lg-12 mx-auto card-header text-white">Create an account or login to ike and
+                        comment.<a href="/SignUp" class="fw-bold link-info"><u>Sign Up</u></a></h6>
+                    <% } %>
+
+                    <% for(let comment of post.comments) { %>
+                    <div class="card col-lg-12 mx-auto bg-dark bg-opacity-25 my-5 rounded-3">
+                        <div class="card-body col-lg-12 mx-auto p-4">
+                            <p class="card-text col-lg-12 mx-auto text-white">@<%= comment.
+                                    author %></p>
+                            <p class="card-text col-lg-12 mx-auto text-white px-4"><%= comment.comment %></p>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 mb-1 me-2">
+                            <small class=" text-muted">
+                                <%= post.createdAt.toDateString() %>
+                            </small>
+                        </div>
                     </div>
                     <% } %>
                 </div>
-            </div>
-        </div>
     </main>
 
     <!-- footer -->
     <%- include('../partials/footer') %>
-
-
-    <!-- <script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-
-    </script> -->
     <script>
+        const likebtn = document.querySelector('#botin')
         const deleted = document.querySelector('#delete')
-        const Id = deleted.dataset.postid
+        const Id = likebtn.dataset.postid
+        if (deleted) {
+            deleted.onclick = async function () {
 
-        deleted.onclick = async function () {
+                const requ = await fetch(`/posts/delete_post/${Id}`, {
+                    method: 'DELETE',
+                });
 
-            const requ = await fetch(`/posts/delete_post/${Id}`, {
-                method: 'DELETE',
-            });
+                const resp = await requ.json();
 
-            const resp = await requ.json();
+                if (resp.status === true) {
+                    window.location.href = resp.redirect;
+                } else if (resp.status === false) {
+                    alert('Could not delete the post')
+                }
+            };
+        }
+        likebtn.onclick = async function () {
+            if (likebtn.classList.contains('clickedlikeicon')) {
 
-            if (resp.status === true) {
-                window.location.href = resp.redirect;
-            } else if (resp.status === false) {
-                alert('Could not delete the post')
+                const requ = await fetch(`/posts/unlike/${Id}`, {
+                    method: 'post'
+                });
+
+                const resp = await requ.json();
+
+                if (resp.status === true) {
+                    likebtn.classList.toggle("clickedlikeicon");
+                    document.querySelector('.likeCount').textContent = resp.count;
+                } else if (resp.status === false) {
+                    alert('Could not unlike the post')
+                }
+
+            } else {
+                const requ = await fetch(`/posts/like/${Id}`, {
+                    method: 'post'
+                });
+
+                const resp = await requ.json();
+
+                if (resp.status === true) {
+                    likebtn.classList.toggle("clickedlikeicon");
+                    document.querySelector('.likeCount').textContent = resp.count;
+                } else if (resp.status === false) {
+                    alert('Could not like the post')
+                }
+
             }
-        };
-
-
-
-        // const postDelete = document.querySelector('#delete')
-        // const postId = postDelete.dataset.postId;
-        // console.log(postId);
-
-        // postDelete.onclick = async function () {
-        //     const request = await fetch(`/delete_post/${postId}`, {
-        //         method: 'DELETE',
-        //     });
-
-        //     const response = await request.json();
-
-        //     if (request.status === true) {
-        //         window.location.href = response.redirect;
-        //     } else if (response.status === false) {
-        //         alert('Could not delete the post');
-        //     }
-        // }
+        }
     </script>
 
 </body>

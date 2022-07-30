@@ -20,6 +20,15 @@ postRouter.get("/update_post/:id", isAuth, postController.get_update_post_form);
 
 postRouter.post("/update_post/:id", isAuth, postController.update_single_post);
 
+// comment on a post
+postRouter.post("/comment/:id", isAuth, postController.comment_on_post);
+
+// like a post
+postRouter.post("/like/:id", isAuth, postController.like_post);
+
+// unlike a post
+postRouter.post("/unlike/:id", isAuth, postController.unlike_post);
+
 // deleting a single post
 postRouter.delete(
   "/delete_post/:id",

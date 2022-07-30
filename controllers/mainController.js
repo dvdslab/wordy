@@ -3,6 +3,8 @@
 const { Post } = require("../models/post");
 const bcrypt = require("bcryptjs");
 const UserModel = require("../models/User");
+const cloudinary = require("../utils/cloudinary");
+const upload = require("../utils/multer");
 
 // homepage route
 const homepage_route = async (req, res) => {
@@ -16,6 +18,7 @@ const homepage_route = async (req, res) => {
   }
 
   Post.find()
+    .populate("author")
     .sort({ createdAt: -1 })
     .then((posts) => {
       res.render("home", {
@@ -57,12 +60,10 @@ const signin_route = async (req, res) => {
 };
 
 // validating users
-
 const validating_users = async (req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!user || !isMatch) {
+  if (!user) {
     req.session.message = {
       type: "danger",
       intro: "Invalid credentials",
@@ -71,19 +72,31 @@ const validating_users = async (req, res) => {
     };
     return res.redirect("/SignIn");
   } else {
-    req.session.message = {
-      type: "success",
-      intro: "You are now logged in",
-      message: "Welcome back",
-      sign: "check-circle-fill",
-    };
-    req.session.user = {
-      username: user.username,
-      name: user.name,
-      _id: user._id,
-      email: user.email,
-    };
-    return res.redirect("/dashboard/" + user.username);
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      req.session.message = {
+        type: "danger",
+        intro: "Invalid credentials",
+        message: "Please make sure to enter the correct credentials",
+        sign: "exclamation-triangle-fill",
+      };
+      return res.redirect("/SignIn");
+    } else {
+      req.session.message = {
+        type: "success",
+        intro: "You are now logged in",
+        message: "Welcome back",
+        sign: "check-circle-fill",
+      };
+      req.session.user = {
+        username: user.username,
+        name: user.name,
+        _id: user._id,
+        email: user.email,
+      };
+      return res.redirect("/dashboard/" + user.username);
+    }
   }
 };
 
@@ -159,6 +172,8 @@ const SigningUp = async (req, res) => {
 };
 // dashboard route
 const dashboard_route = async (req, res) => {
+  const anyUser = req.params.username;
+  const dashboardUser = await UserModel.findOne({ username: anyUser });
   const currentUser = await UserModel.findOne({
     username: req.session.user.username,
   });
@@ -168,7 +183,7 @@ const dashboard_route = async (req, res) => {
     message: "Please sign in to continue",
     sign: "check-circle-fill",
   };
-  const author = req.session.user._id;
+  const author = dashboardUser._id;
   omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
   Post.find({ author: omo })
     .populate("author")
@@ -177,12 +192,93 @@ const dashboard_route = async (req, res) => {
       return res.status(200).render("dashboard", {
         currentUser,
         posts,
+        dashboardUser,
       });
     })
     .catch((error) => {
       console.log(error);
     });
 };
+
+const update_profile_route = async (req, res) => {
+  const currentUser = await UserModel.findOne({
+    username: req.session.user.username,
+  });
+
+  const id = req.session.user._id;
+  await UserModel.findByIdAndUpdate(id, req.body)
+    .then((user) => {
+      res.redirect("/dashboard/" + currentUser.username);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const upload_profile_photo_route = async (req, res) => {
+  try {
+    const currentUser = await UserModel.findOne({
+      username: req.session.user.username,
+    });
+    const result = await cloudinary.uploader.upload(req.file.path);
+    const id = req.session.user._id;
+    await UserModel.findByIdAndUpdate(
+      id,
+      { avatar: result.secure_url, cloudinary_id: result.public_id },
+      { new: true }
+    )
+      .then((user) => {
+        res.redirect("/dashboard/" + currentUser.username);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const delete_profile_photo_route = async (req, res) => {
+  try {
+    const currentUser = await UserModel.findOne({
+      username: req.session.user.username,
+    });
+    // delete photo from cloudinary
+    await cloudinary.uploader.destroy(currentUser.cloudinary_id);
+    // find user by id
+    const id = req.session.user._id;
+    // pulling cloudinary_id and avatar from user
+    const user = await UserModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        $unset: {
+          avatar: currentUser.avatar,
+          cloudinary_id: currentUser.cloudinary_id,
+        },
+      },
+      { new: true }
+    )
+      .then((result) => {
+        return res.json({
+          status: true,
+          message: "Photo deleted succefully",
+          redirect: "/dashboard/" + currentUser.username,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.json({
+          status: false,
+          error: "Something went wrong",
+          full_error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+const update_profile_photo_route = async (req, res) => {};
 
 // LogOut
 const Logout = (req, res) => {
@@ -205,6 +301,10 @@ module.exports = {
   signup_route,
   SigningUp,
   dashboard_route,
+  update_profile_route,
+  upload_profile_photo_route,
+  delete_profile_photo_route,
+  update_profile_photo_route,
   Logout,
   for04_page,
 };

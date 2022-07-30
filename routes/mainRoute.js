@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { isAuth } = require("../middlewares/session");
 const mainController = require("../controllers/mainController");
+const upload = require("../utils/multer");
 const mainRouter = Router();
 
 // Homepage
@@ -18,7 +19,38 @@ mainRouter.post("/SignUp", mainController.SigningUp);
 // mainRouter.post("/SignUp", (req, res) => {});
 
 // DASHBOARD ROUTE
-mainRouter.get("/dashboard/:id", isAuth, mainController.dashboard_route);
+mainRouter.get("/dashboard/:username", isAuth, mainController.dashboard_route);
+
+// update profile route
+mainRouter.post(
+  "/edit/:username",
+  isAuth,
+  upload.single("image"),
+  mainController.update_profile_route
+);
+
+// upload profile photo route
+mainRouter.post(
+  "/upload/:username",
+  isAuth,
+  upload.single("image"),
+  mainController.upload_profile_photo_route
+);
+
+// delete profile photo route
+mainRouter.delete(
+  "/upload/:username",
+  isAuth,
+  mainController.delete_profile_photo_route
+);
+
+// update profile photo route
+mainRouter.put(
+  "/upload/:username",
+  isAuth,
+  mainController.update_profile_photo_route
+);
+
 // logout post request
 mainRouter.post("/logOut", mainController.Logout);
 

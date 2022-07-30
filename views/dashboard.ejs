@@ -53,7 +53,7 @@
             </symbol>
         </svg>
         <div style="text-align: center; margin: 0px;"
-            class="alert alert-<%= message.type %> alert-dismissible fade show">
+            class="alert alert-<%= message.type %> alert-dismissible fade show bg-opacity-50">
             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="<%= message.type %>:">
                 <use xlink:href="#<%= message.sign %>" /></svg>
             <strong><%= message.intro %></strong> <%= message.message %>
@@ -67,123 +67,234 @@
             <div class="bg-dark">
                 <div class="container">
                     <header
-                        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
+                        class="d-flex flex-wrap align-items-center justify-content-between py-3">
                         <a href="/"
-                            class="d-flex align-items-center col-md-3 col-sm-12 mb-2 mb-md-0 text-white text-decoration-none fs-4 font-monospace justify-content-center">
+                            class="d-flex align-items-center col-md-3 col-sm-6 mb-2 mb-md-0 text-white text-decoration-none fs-4 justify-content-left">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor"
                                 class="bi bi-chat-right-text-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z" />
-                            </svg>WORDY
+                            </svg>Wordy
                         </a>
 
-                        <ul class="nav nav-pills col-12 col-md-auto col-sm-6 mb-2 justify-content-center mb-md-0">
-                            <!-- <li><a href="/" class="nav-link px-2 bg-white text-secondary">Home</a></li>
-                                <li><a href="/posts/new_post" class="nav-link px-2 text-white">New Post</a></li>
-                                <li><a href="/about" class="nav-link px-2 text-white">About Us</a></li> -->
-                        </ul>
+                        <ul class="nav nav-pills col-md-auto col-sm-6 mb-2 justify-content-right mb-md-0">
                         <!-- PROFILE PHOTO DROPDOWN -->
-                        <div class="col-md-3 dropdown text-end ">
+                        <div class="col-md-3 col-sm-6 dropdown text-end">
                             <a href="#" class="d-block link-light text-decoration-none dropdown-toggle"
                                 id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
-                                    class="rounded-circle">
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
-                                aria-labelledby=" dropdownUser1">
-                                <li><a class="dropdown-item text-center" href="/">Home</a></li>
-                                <li><a class="dropdown-item" href="/posts/new_post">New Post</a></li>
-                                <li><a class="dropdown-item" href="/about">About Us</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a>
-                                        <form class="d-grid gap-2 col-6 mx-auto" action="/logOut" method="POST">
-                                            <button class="btn btn-danger">log out</button>
-                                        </form>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </header>
-                </div>
-            </div>
+                                <img src="<%= dashboardUser.avatar %>" alt="" width="32" height="32"
+        class="rounded-circle" style="object-fit: cover;">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
+            aria-labelledby=" dropdownUser1">
+            <li><a class="dropdown-item text-center" href="/">Home</a></li>
+            <li><a class="dropdown-item" href="/posts/new_post">New Post</a></li>
+            <li><a class="dropdown-item" href="/about">About Us</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li>
+                <a>
+                    <form class="d-grid gap-2 col-6 mx-auto" action="/logOut" method="POST">
+                        <button class="btn btn-danger">log out</button>
+                    </form>
+                </a>
+            </li>
+        </ul>
+        </div>
+        </header>
+        </div>
+        </div>
 
 
         </section>
 
-        <section class="px-2" style="background-color:black">
+        <section class="" style="background-color:black">
             <div class="row" style="margin-right: 0px;">
-                <div class=" mx-auto">
+                <div class="p-0">
                     <!-- Profile widget -->
                     <div class="bg-black shadow rounded overflow-hidden">
-                        <div class="px-4 pt-0 pb-4 cover">
+                        <div class="p-5 pt-0 pb-3 cover">
                             <div class="media align-items-end profile-head">
-                                <div class="profile mr-3"><img
-                                        src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-                                        alt="display picture" width="130" class="rounded mb-2 ">
+                                <div class="profile mr-3"><button type="button" data-bs-toggle="modal"
+                                        data-bs-target="#modale" class="p-0 mb-1 rounded-3"
+                                        style="height: 110px; width: 110px;"><img src=" <%= dashboardUser.avatar %>"
+                                            alt="Profile photo" class="rounded"
+                                            style="height: 110px; width: 110px; object-fit: cover;"></button>
                                 </div>
                                 <div class="media-body mb-5 text-white">
-                                    <h4 class="mt-0 mb-0"><%= currentUser.username %></h4>
-        </div>
-        </div>
-        </div>
-        <div class="bg-dark bg-opacity-25 p-4 text-center d-flex rounded-3">
-            <div class="me-auto my-auto">
-                <a href="#" class="btn btn-outline-light btn-sm btn-block">Edit
-                    profile</a>
-            </div>
-            <div class="">
-                <ul class="list-inline mb-0 text-white">
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted"> <i
-                                class="fas fa-image mr-1"></i>Photos</small>
-                    </li>
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted"> <i
-                                class="fas fa-user mr-1"></i>Followers</small>
-                    </li>
-                    <li class="list-inline-item">
-                        <h5 class="font-weight-bold mb-0 d-block">0</h5><small class="text-muted"> <i
-                                class="fas fa-user mr-1"></i>Following</small>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- <div class="px-4 py-3">
-                                    <h5 class="mb-0">About</h5>
-                                    <div class="p-4 rounded shadow-sm bg-light">
-                                        <p class="font-italic mb-0">Web Developer</p>
-                                        <p class="font-italic mb-0">Lives in New York</p>
-                                        <p class="font-italic mb-0">Photographer</p>
+                                    <p class="mb-0"><%= dashboardUser.name %></p>
+                                    <p class="mt-0 mb-0 text-secondary">@<%= dashboardUser.username %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-dark bg-opacity-25 p-4 text-center d-flex rounded-3">
+                            <% if(currentUser._id.toString() == dashboardUser._id.toString()) { %>
+                            <div class="me-auto my-auto">
+                                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalCenter">
+                                    Edit profile
+                                </button>
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered rounded-3">
+                                        <div class="modal-content bg-black">
+                                            <div class="modal-header bg-dark bg-opacity-25 border-0">
+                                                <h5 class="modal-title text-white" id="exampleModalCenterTitle">Edit
+                                                    your
+                                                    profile</h5>
+                                                <button type="button" class="btn-close btn-light bg-light"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body p-4 bg-dark bg-opacity-50">
+                                                <form class="row g-3" action="/edit/<%= dashboardUser.username %>"
+                                                    method="post">
+                                                    <div class="col-md-12">
+                                                        <input type="text"
+                                                            class="form-control bg-dark text-white border-0"
+                                                            id="inputEmail4" placeholder="Name" name="name"
+                                                            value="<%= dashboardUser.name %>">
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <input type="email"
+                                                            class="form-control bg-dark text-white border-0"
+                                                            id="inputPassword4" placeholder="Email" name="email"
+                                                            value="<%= dashboardUser.email %>">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <textarea type="text"
+                                                            class="form-control bg-dark text-white border-0"
+                                                            id="inputAddress" placeholder="Bio" name="bio"
+                                                            style="height: 100px"><%= dashboardUser.bio %></textarea>
+                                                    </div>
+                                                    <button type="submit"
+                                                        class="btn btn-success btn-sm col-2 align-items-end">Save</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer bg-dark bg-opacity-25 border-0">
+                                                <button type=" button" class="btn btn-outline-danger btn-sm"
+                                                    data-bs-dismiss="modal">Discard</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div> -->
-        <div class="container-fluid row align-items-md-stretch p-3 bg-black" style="margin: 0px; min-height: 458.9px;">
-            <!-- for -->
-            <% posts.forEach(post =>{ %>
-            <div class="col-md-6 col-xl-3" style="padding: 12px; ">
-                <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-25">
-                    <h2 class="text-white"><%= post.title %></h2>
-                    <p class="text-secondary"><%= post.snippet %></p>
-                    <a class="btn btn-outline-secondary" type="button" href="/posts/read/<%= post._id
-                                            %>">Read More</a>
+                                </div>
+                            </div>
+                            <% } else { %>
+                            <div class="me-auto my-auto">
+                                <a href="#" class="btn btn-outline-secondary btn-sm btn-block">Sigh</a>
+                            </div>
+                            <% } %>
+
+                            <div class="modal fade" id="modale" tabindex="-3" aria-labelledby="Profile photo"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered rounded-3">
+                                    <div class="modal-content bg-black">
+                                        <div class="modal-header bg-dark bg-opacity-25 border-0">
+                                            <h5 class="modal-title text-white" id="exampleModalLabel">Profile photo</h5>
+                                            <button type="button" class="btn-close  btn-light bg-light"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="/upload/<%= dashboardUser.username %>" method="post"
+                                            enctype="multipart/form-data">
+                                            <div class="modal-body bg-dark bg-opacity-50">
+                                                <% if(currentUser.avatar){ %>
+                                                <% } else { %>
+                                                <div class="pb-2"><input type="file" name="image"
+                                                        class="custom-file-input" id="custom" style="display: none;">
+                                                    <button class="btn btn-dark"><label class="custom-file-label"
+                                                            for="custom">Choose
+                                                            photo</label></button>
+                                                </div>
+                                                <div>
+                                                    <button type="submit" class="btn btn-success btn-sm">Save</button>
+                                                </div>
+                                                <% } %>
+                                            </div>
+                                        </form>
+                                        <div class="modal-footer bg-dark bg-opacity-25 border-0">
+                                            <a class="btn btn-danger btn-sm px-4 fw-bold" type=" button" id="delete"
+                                                data-postid="<%= dashboardUser.username %>">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <ul class="list-inline mb-0 text-white">
+                                    <li class="list-inline-item">
+                                        <h5 class="font-weight-bold mb-0 d-block"><%= posts.length %></h5><small
+                                            class="text-muted"> <i class="fas fa-image mr-1"></i>Posts</small>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3">
+                            <h5 class="ms-1 text-white">Bio</h5>
+                            <div class="p-3 rounded text-white bg-dark bg-opacity-25" style=" white-space: pre-line;">
+                                <p class="mb-0"><%= dashboardUser.bio %></p>
+                            </div>
+                        </div>
+                        <div class="container-fluid row align-items-md-stretch p-3 bg-black"
+                            style="margin: 0px; min-height: 458.9px;">
+
+                            <h5 class="ms-1 text-white">Posts</h5>
+                            <!-- for each posts-->
+                            <% posts.forEach(post =>{ %>
+                            <div class="col-md-6 col-xl-3" style="padding: 12px;">
+                                <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-25 position-relative row">
+                                    <div>
+                                        <h4 class="text-white"><%= post.title %></h4>
+                                        <p class="text-secondary"><%= post.snippet %></p>
+                                    </div>
+                                    <div class="position-absolute bottom-0 start-0 mb-1 col-md-12 col-xl-12">
+                                        <div class="d-flex justify-content-end">
+                                            <a class="btn btn-outline-secondary" type="button" href="/posts/read/<%= post._id
+                                %>">Read More...</a>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <small class="text-muted">
+                                                <%= post.createdAt.toDateString() %>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%  }) %>
+
+
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
-            <%  }) %>
-
-
-
-
-        </div>
-        </div>
-        </div>
-        </div>
         </section>
 
         <!-- footer -->
         <%- include('../partials/footer') %>
     </main>
+
+    <!-- Scripts -->
+    <script>
+        const deleted = document.querySelector('#delete')
+
+        const Id = deleted.dataset.dashboardusername
+        if (deleted) {
+            deleted.onclick = async function () {
+
+                const requ = await fetch(`/upload/${Id}`, {
+                    method: 'DELETE',
+                });
+                const resp = await requ.json();
+
+                if (resp.status === true) {
+                    window.location.href = resp.redirect;
+                } else if (resp.status === false) {
+                    alert('Could not delete the photo')
+                }
+            };
+
+        }
+    </script>
 
 
 

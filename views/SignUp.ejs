@@ -65,7 +65,7 @@
                     <div class="col-md-3 dropdown text-end">
                         <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
+                            <img src="<%= currentUser.avatar %>" alt="mdo" width="32" height="32"
                                 class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
@@ -126,41 +126,41 @@
                 <div class="container h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                            <div class="card bg-dark text-white" style="border-radius: 15px;">
+                            <div class="card bg-dark bg-opacity-50 text-white" style="border-radius: 15px;">
                                 <div class="card-body p-5">
-                                    <h2 class="text-uppercase text-center mb-5">Create Your Wordy account </h2>
+                                    <h2 class="text-center mb-5">Sign Up</h2>
 
                                     <form action="/SignUp" method="POST">
                                         <div class="form-floating mb-3">
-                                            <input type="text" id="username" class="form-control bg-dark text-white"
+                                            <input type="text" id="username" class="form-control bg-dark text-white border-0"
                                                 name="username" placeholder="Username" required>
-                                            <label class="form-label" for="form3Example3cg">Username</label>
+                                            <label class="form-label text-secondary" for="form3Example3cg">Username</label>
                                             <small class="text-danger email_error"></small>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" id="name" class="form-control bg-dark text-white"
+                                            <input type="text" id="name" class="form-control bg-dark text-white border-0"
                                                 name="name" placeholder="name" required>
-                                            <label class="form-label" for="form3Example3cg">Full name</label>
+                                            <label class="form-label text-secondary" for="form3Example3cg">Full name</label>
                                             <small class="text-danger email_error"></small>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="email" id="email" class="form-control bg-dark text-white"
+                                            <input type="email" id="email" class="form-control bg-dark text-white border-0"
                                                 name="email" placeholder="Email" required>
-                                            <label class="form-label" for="form3Example3cg">Email</label>
+                                            <label class="form-label text-secondary" for="form3Example3cg">Email</label>
                                             <small class="text-danger email_error"></small>
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input type="password" id="password" class="form-control bg-dark text-white"
+                                            <input type="password" id="password" class="form-control bg-dark text-white border-0"
                                                 name="password" placeholder="Password" required>
-                                            <label class="form-label" for="form3Example4cg">Password</label>
+                                            <label class="form-label text-secondary" for="form3Example4cg">Password</label>
                                             <small class="text-danger pass_error"></small>
 
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="password" id="confirm" class="form-control bg-dark text-white"
+                                            <input type="password" id="confirm" class="form-control bg-dark text-white border-0"
                                                 name="confirm" placeholder="Confirm password" required>
-                                            <label class="form-label" for="form3Example4cg">Confirm password</label>
+                                            <label class="form-label text-secondary" for="form3Example4cg">Confirm password</label>
                                             <small class="text-danger pass_error"></small>
 
                                         </div>
@@ -176,13 +176,13 @@
                                         </div>
 
                                         <div class="d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-lg btn-primary">Sign Up</button>
+                                            <button type="submit" class="btn btn-lg btn-secondary">Sign Up</button>
                                         </div>
 
                                         <p class="text-center text-muted mt-3 mb-0 text-decoration-none">Have
                                             already an
                                             account?
-                                            <a href="/SignIn" class="fw-bold link-info"><u>Sign In here</u></a></p>
+                                            <a href="/SignIn" class="fw-bold link-info"><u>Sign In</u></a></p>
                                     </form>
 
 
@@ -201,70 +201,7 @@
     <script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
     </script>
-    <!-- <script>
-        const myForm = document.getElementById('myForm');
 
-        myForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // clearing out the errors
-            document.querySelector('.email_error').textContent = ''
-            document.querySelector('.pass_error').textContent = ''
-            document.querySelector('.name_error').textContent = ''
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            let data = {
-                name: name,
-                email: email,
-                password: password
-            }
-            console.log(data);
-
-            const xhttp = new XMLHttpRequest();
-            xhttp.onload = function () {
-                console.log(this.statusText)
-
-                console.log(this.responseText)
-
-                let res = JSON.parse(this.response)
-
-
-                if (res.status === false) {
-                    if (res.error === 'EMAIL_DUPLICATE') {
-                        return document.querySelector('.email_error').textContent = res.message
-                    } else if (res.error === 'PASSWORD') {
-                        return document.querySelector('.pass_error').textContent = res.message
-                    } else if (res.error === 'NAME') {
-                        return document.querySelector('.name_error').textContent = res.message
-                    }
-                }
-
-                // alert susccess sign up message
-                let message = "sign up successful! Redirecting to sign in page..."
-                // redirect the user to the sign in page
-            }
-            xhttp.open("POST", "/api/user/register");
-            xhttp.setRequestHeader("Content-type", "application/json");
-            xhttp.send(JSON.stringify(data));
-
-            res.redirect("/SignIn");
-
-
-
-            // fetch('/api/user/register', {
-            //     method: 'post',
-            //     body: data
-            // }).then(async function (response) {
-            //     let data = await response.json()
-            //     console.log(data);
-            // }).catch(function (error) {
-            //     console.log(error);
-            // })
-        })
-    </script> -->
 
 </body>
 

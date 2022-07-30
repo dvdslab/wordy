@@ -5,7 +5,6 @@ const { mainRouter } = require("./routes/mainRoute");
 const { newSession } = require("./middlewares/session");
 const flash = require("connect-flash");
 const dotenv = require("dotenv");
-// const { postRoute } = require("./routes/posts");
 
 dotenv.config();
 

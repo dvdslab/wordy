@@ -64,7 +64,7 @@
                     <div class="col-md-3 dropdown text-end">
                         <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
+                            <img src="<%= currentUser.avatar %>" alt="mdo" width="32" height="32"
                                 class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
@@ -111,7 +111,7 @@
             <div class="py-5">
                 <h1 class="display-5 fw-bold text-white">Welcome to Wordy</h1>
                 <div class="col-lg-6 mx-auto">
-                    <p class="fs-5 mb-4">Wordy is a mini blog that is built with NdeJS on top of the express framework.
+                    <p class="fs-5 mb-4">Wordy is a mini blog that is built with NodeJS on top of the express framework.
                         Wordy
                         allows anyone, like you, to publish blogs without having to undergo any validation</p>
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -129,53 +129,29 @@
             <% posts.forEach(post =>{ %>
 
             <div class="col-md-6 col-xl-3" style="padding: 12px;">
-                <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-25">
-                    <h2 class="text-white"><%= post.title %></h2>
-                    <p class="text-secondary"><%= post.snippet %></p>
-                    <a class="btn btn-outline-secondary" type="button" href="/posts/read/<%= post._id
-                    %>">Read More</a>
+                <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-25 position-relative row">
+                    <div>
+                        <h4 class="text-white"><%= post.title %></h4>
+                        <p class="text-secondary"><%= post.snippet %></p>
+                    </div>
+                    <div class="position-absolute bottom-0 start-0 mb-1 col-md-12 col-xl-12">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-outline-secondary" type="button" href="/posts/read/<%= post._id
+                            %>">Read More...</a>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <small class="text-muted">
+                                By: <%= post.author.username %>
+                            </small>
+                            <small class="text-muted">
+                                <%= post.createdAt.toDateString() %>
+                            </small>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <%  }) %>
-
-
-            <!-- <div class="col-md-6 col-xl-3" style="padding: 12px;">
-                <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-50">
-                    <h2 class="text-white">Add borders</h2>
-                    <p class="text-secondary">Or, keep it light and add a border for some added definition to the
-                        boundaries of
-                        your content. Be sure to
-                        look under the hood at the source HTML here as we've adjusted the alignment and sizing of both
-                        column's
-                        content for equal-height.</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-3" style="padding: 12px;">
-                <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-75">
-                    <h2 class="text-white">Add borders</h2>
-                    <p class="text-secondary">Or, keep it light and add a border for some added definition to the
-                        boundaries of
-                        your content. Be sure to
-                        look under the hood at the source HTML here as we've adjusted the alignment and sizing of both
-                        column's
-                        content for equal-height.</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-3" style="padding: 12px;">
-                <div class="h-100 p-5 bg-dark rounded-3 m-0">
-                    <h2 class="text-white">Add borders</h2>
-                    <p class="text-secondary">Or, keep it light and add a border for some added definition to the
-                        boundaries of
-                        your content. Be sure to
-                        look under the hood at the source HTML here as we've adjusted the alignment and sizing of both
-                        column's
-                        content for equal-height.</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
-                </div>
-            </div> -->
         </div>
         <!-- footer -->
         <%- include('../partials/footer') %>

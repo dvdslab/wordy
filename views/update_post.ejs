@@ -61,7 +61,7 @@
                 <div class="col-md-3 dropdown text-end">
                     <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <img src="<%= currentUser.avatar %>" alt="mdo" width="32" height="32" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
                         aria-labelledby=" dropdownUser1">
@@ -97,17 +97,14 @@
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control bg-dark text-white border-0" id="title" name="title"
                         placeholder="Title" value="<%= post.title %>" required>
-                    <label for="title" class="text-secondary">Title</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control bg-dark text-white border-0" id="snippet" name="snippet"
                         placeholder="snippet" value="<%= post.snippet %>" required>
-                    <label for="snippet" class="text-secondary">Snippet</label>
                 </div>
                 <div class="form-floating mb-4">
                     <textarea class="form-control bg-dark text-white border-0" placeholder="content" id="content"
                         name="content" style="height: 246px" required><%= post.content %></textarea>
-                    <label for="content" class="text-secondary">Content</label>
                 </div>
                 <button type="submit" class="btn btn-info">Update</button>
             </form>

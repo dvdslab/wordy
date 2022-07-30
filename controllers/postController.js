@@ -38,16 +38,10 @@ const get_single_post = async (req, res) => {
       username: req.session.user.username,
     });
   }
-  // what i'm trying to do here is match the author id th the id in session
-
-  // const author = await req.session.user._id;
-  // omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
-  // console.log(omo);
-
-  // tina = await Post.find({id: req})
 
   const id = req.params.id;
   Post.findById(id)
+    .populate("author")
     .then((post) => {
       res.render("post", {
         post,
@@ -58,7 +52,6 @@ const get_single_post = async (req, res) => {
     .catch((error) => {
       console.log(error);
     });
-  // res.render("new_post");
 };
 
 const get_update_post_form = async (req, res) => {
@@ -73,12 +66,6 @@ const get_update_post_form = async (req, res) => {
   const id = req.params.id;
   Post.findById(id)
     .then((post) => {
-      // CHECK IF AUTHOR IS CURRENT USER IN SESSION
-      // if (post.author != req.session.user._id) {
-      //   // CHECK THIS INTO AN ERROR NOT A REDIRECT
-      //   return res.redirect("/dashboard/" + req.session.user.username);
-      // }
-
       res.render("update_post", {
         post,
         login,
@@ -101,11 +88,86 @@ const update_single_post = (req, res) => {
     });
 };
 
+// commenting on a post
+const comment_on_post = async (req, res) => {
+  const id = req.params.id;
+  Post.findById(id)
+    .then((post) => {
+      post.comments.push({
+        comment: req.body.comment,
+        author: req.session.user.username,
+      });
+      post.save();
+      return res.redirect("/posts/read/" + id);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+// like a post
+const like_post = (req, res) => {
+  const id = req.params.id;
+  Post.findById(id).then((post) => {
+    if (post.like.includes(req.session.user._id)) {
+      return res.json({
+        status: false,
+        message: "already liked",
+      });
+    }
+  });
+  Post.findOneAndUpdate(
+    { _id: id },
+    { $push: { like: req.session.user._id } },
+    { new: true }
+  )
+    .then((post) => {
+      return res.json({
+        status: true,
+        message: "liked",
+        count: post.like.length,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.json({
+        status: false,
+        message: "post not liked",
+      });
+    });
+};
+
+// unlike a post
+const unlike_post = (req, res) => {
+  const id = req.params.id;
+  Post.findOneAndUpdate(
+    { _id: id },
+    { $pull: { like: req.session.user._id } },
+    { new: true }
+  )
+    .then((post) => {
+      return res.json({
+        status: true,
+        message: "unliked",
+        count: post.like.length,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.json({
+        status: false,
+        error: "post not unliked",
+        full_error: error,
+      });
+    });
+};
+
+// delete a post
 const delete_single_post = (req, res) => {
   const id = req.params.id;
   Post.findByIdAndDelete(id)
     .then((result) => {
-      res.json({
+      return res.json({
         status: true,
         message: "Post deleted succefully",
         redirect: "/",
@@ -113,7 +175,7 @@ const delete_single_post = (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.json({
+      return res.json({
         status: false,
         error: "Something went wrong",
         full_error: error,
@@ -128,4 +190,7 @@ module.exports = {
   get_update_post_form,
   update_single_post,
   delete_single_post,
+  comment_on_post,
+  like_post,
+  unlike_post,
 };
