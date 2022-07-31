@@ -46,3 +46,7 @@ mongoose
 wordy.use("/posts", postRouter);
 
 wordy.use(mainRouter);
+
+wordy.all("*", (req, res) => {
+  res.status(404).render("404");
+});
