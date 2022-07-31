@@ -53,7 +53,7 @@
             </symbol>
         </svg>
         <div style="text-align: center; margin: 0px;"
-            class="alert alert-<%= message.type %> alert-dismissible fade show bg-opacity-50">
+            class="alert alert-<%= message.type %> alert-dismissible fade show bg-opacity-25">
             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="<%= message.type %>:">
                 <use xlink:href="#<%= message.sign %>" /></svg>
             <strong><%= message.intro %></strong> <%= message.message %>
@@ -127,7 +127,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="bg-dark bg-opacity-25 p-4 text-center d-flex rounded-3">
+                        <div
+                            class="bg-dark bg-opacity-25 p-4 text-center d-flex rounded-3  border-bottom border-secondary">
                             <% if(currentUser._id.toString() == dashboardUser._id.toString()) { %>
                             <div class="me-auto my-auto">
                                 <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
@@ -228,18 +229,20 @@
                         </div>
                         <div class="px-4 py-3">
                             <h5 class="ms-1 text-white">Bio</h5>
-                            <div class="p-3 rounded text-white bg-dark bg-opacity-25" style=" white-space: pre-line;">
+                            <div class="p-3 rounded text-white bg-dark bg-opacity-50 border border-secondary"
+                                style=" white-space: pre-line;">
                                 <p class="mb-0"><%= dashboardUser.bio %></p>
                             </div>
                         </div>
-                        <div class="container-fluid row align-items-md-stretch p-3 bg-black"
+                        <div class="container-fluid row align-items-md-stretch p-3 bg-black "
                             style="margin: 0px; min-height: 458.9px;">
 
                             <h5 class="ms-1 text-white">Posts</h5>
                             <!-- for each posts-->
                             <% posts.forEach(post =>{ %>
                             <div class="col-md-6 col-xl-3" style="padding: 12px;">
-                                <div class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-25 position-relative row">
+                                <div
+                                    class="h-100 p-5 bg-dark rounded-3 m-0 bg-opacity-25 border border-secondary position-relative row">
                                     <div>
                                         <h4 class="text-white"><%= post.title %></h4>
                                         <p class="text-secondary"><%= post.snippet %></p>
