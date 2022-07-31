@@ -89,6 +89,9 @@
             <li><a class="dropdown-item text-center" href="/">Home</a></li>
             <li><a class="dropdown-item" href="/posts/new_post">New Post</a></li>
             <li><a class="dropdown-item" href="/about">About Us</a></li>
+            <% if(currentUser._id.toString() != dashboardUser._id.toString()) { %>
+            <li><a class="dropdown-item" href="/dashboard/<%= currentUser.username %>">dashboard</a></li>
+            <% } %>
             <li>
                 <hr class="dropdown-divider">
             </li>
