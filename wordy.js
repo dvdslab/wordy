@@ -45,8 +45,4 @@ mongoose
 // Everything relating to CRUD operation
 wordy.use("/posts", postRouter);
 
-// route middleware
-// wordy.use("/api/user", authRoute);
-// wordy.use("/api/posts", postRoute);
-
 wordy.use(mainRouter);
