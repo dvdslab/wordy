@@ -81,7 +81,7 @@
                         <div class="col-md-3 col-sm-6 dropdown text-end">
                             <a href="#" class="d-block link-light text-decoration-none dropdown-toggle"
                                 id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="<%= dashboardUser.avatar %>" alt="" width="32" height="32"
+                                <img src="<%= currentUser.avatar %>" alt="" width="32" height="32"
         class="rounded-circle" style="object-fit: cover;">
         </a>
         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
@@ -184,7 +184,7 @@
                                 <a href="#" class="btn btn-outline-secondary btn-sm btn-block">Sigh</a>
                             </div>
                             <% } %>
-
+                            <% if(currentUser._id.toString() == dashboardUser._id.toString()) { %>
                             <div class="modal fade" id="modale" tabindex="-3" aria-labelledby="Profile photo"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered rounded-3">
@@ -218,6 +218,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <% } %>
                             <div class="">
                                 <ul class="list-inline mb-0 text-white">
                                     <li class="list-inline-item">
