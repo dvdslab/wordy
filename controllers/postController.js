@@ -183,6 +183,11 @@ const delete_single_post = (req, res) => {
     });
 };
 
+// 404page
+const for04_page = (req, res) => {
+  res.status(404).render("404");
+};
+
 module.exports = {
   get_new_post_form,
   publish_new_post,
@@ -193,4 +198,5 @@ module.exports = {
   comment_on_post,
   like_post,
   unlike_post,
+  for04_page,
 };

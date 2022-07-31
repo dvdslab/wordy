@@ -35,6 +35,7 @@ postRouter.delete(
   isAuth,
   postController.delete_single_post
 );
-
+// 404 page
+postRouter.all("*", postController.for04_page);
 // exporting our postRouter
 module.exports = { postRouter };
