@@ -33,13 +33,13 @@ wordy.use((req, res, next) => {
 const dbURI = process.env.DB_CONNECT;
 const PORT = process.env.PORT || 5000;
 
-wordy.listen(PORT, () => {
-  console.log(`App is listening in http://localhost:${PORT}`);
-});
-
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => console.log("Connected to the DB"))
+  .then((result) => {
+    wordy.listen(PORT, () => {
+      console.log(`App is listening in http://localhost:${PORT}`);
+    });
+  })
   .catch((error) => console.log(error));
 
 // Everything relating to CRUD operation
