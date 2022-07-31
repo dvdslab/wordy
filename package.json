@@ -4,7 +4,9 @@
   "description": "",
   "main": "wordy.js",
   "scripts": {
-    "start": "nodemon wordy"
+    "start": "node wordy",
+    "start:dev": "nodemon wordy"
+
   },
   "keywords": [],
   "author": "",
