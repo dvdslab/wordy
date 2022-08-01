@@ -177,49 +177,59 @@ const dashboard_route = async (req, res) => {
   const currentUser = await UserModel.findOne({
     username: req.session.user.username,
   });
-  req.session.message = {
-    type: "success",
-    intro: "You are now registered! ",
-    message: "Please sign in to continue",
-    sign: "check-circle-fill",
-  };
-  const author = dashboardUser._id;
-  omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
-  Post.find({ author: omo })
-    .populate("author")
-    .sort({ createdAt: -1 })
-    .then((posts) => {
-      return res.status(200).render("dashboard", {
-        currentUser,
-        posts,
-        dashboardUser,
+
+  if (!dashboardUser || !currentUser) {
+    return res.redirect("/page_not_found");
+  } else {
+    req.session.message = {
+      type: "success",
+      intro: "You are now registered! ",
+      message: "Please sign in to continue",
+      sign: "check-circle-fill",
+    };
+    const author = dashboardUser._id;
+    omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
+    Post.find({ author: omo })
+      .populate("author")
+      .sort({ createdAt: -1 })
+      .then((posts) => {
+        return res.status(200).render("dashboard", {
+          currentUser,
+          posts,
+          dashboardUser,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  }
 };
 
 const update_profile_route = async (req, res) => {
   const currentUser = await UserModel.findOne({
     username: req.session.user.username,
   });
-
-  const id = req.session.user._id;
-  await UserModel.findByIdAndUpdate(id, req.body)
-    .then((user) => {
-      res.redirect("/dashboard/" + currentUser.username);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  if (!currentUser) {
+    return res.redirect("/page_not_found");
+  } else {
+    const id = req.session.user._id;
+    await UserModel.findByIdAndUpdate(id, req.body)
+      .then((user) => {
+        res.redirect("/dashboard/" + currentUser.username);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 };
 
 const upload_profile_photo_route = async (req, res) => {
-  try {
-    const currentUser = await UserModel.findOne({
-      username: req.session.user.username,
-    });
+  const currentUser = await UserModel.findOne({
+    username: req.session.user.username,
+  });
+  if (!currentUser) {
+    return res.redirect("/page_not_found");
+  } else {
     const result = await cloudinary.uploader.upload(req.file.path);
     const id = req.session.user._id;
     await UserModel.findByIdAndUpdate(
@@ -233,52 +243,51 @@ const upload_profile_photo_route = async (req, res) => {
       .catch((error) => {
         console.log(error);
       });
-  } catch (error) {
-    console.log(error);
   }
 };
-
 const delete_profile_photo_route = async (req, res) => {
   try {
     const currentUser = await UserModel.findOne({
       username: req.session.user.username,
     });
-    // delete photo from cloudinary
-    await cloudinary.uploader.destroy(currentUser.cloudinary_id);
-    // find user by id
-    const id = req.session.user._id;
-    // pulling cloudinary_id and avatar from user
-    const user = await UserModel.findByIdAndUpdate(
-      { _id: id },
-      {
-        $unset: {
-          avatar: currentUser.avatar,
-          cloudinary_id: currentUser.cloudinary_id,
+    if (!currentUser) {
+      return res.redirect("/page_not_found");
+    } else {
+      // delete photo from cloudinary
+      await cloudinary.uploader.destroy(currentUser.cloudinary_id);
+      // find user by id
+      const id = req.session.user._id;
+      // pulling cloudinary_id and avatar from user
+      const user = await UserModel.findByIdAndUpdate(
+        { _id: id },
+        {
+          $unset: {
+            avatar: currentUser.avatar,
+            cloudinary_id: currentUser.cloudinary_id,
+          },
         },
-      },
-      { new: true }
-    )
-      .then((result) => {
-        return res.json({
-          status: true,
-          message: "Photo deleted succefully",
-          redirect: "/dashboard/" + currentUser.username,
+        { new: true }
+      )
+        .then((result) => {
+          return res.json({
+            status: true,
+            message: "Photo deleted succefully",
+            redirect: "/dashboard/" + currentUser.username,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          return res.json({
+            status: false,
+            error: "Something went wrong",
+            full_error: error,
+          });
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        return res.json({
-          status: false,
-          error: "Something went wrong",
-          full_error: error,
-        });
-      });
+    }
   } catch (error) {
     res.status(500).send(error);
   }
 };
-
-const update_profile_photo_route = async (req, res) => {};
 
 // LogOut
 const Logout = (req, res) => {
@@ -304,7 +313,6 @@ module.exports = {
   update_profile_route,
   upload_profile_photo_route,
   delete_profile_photo_route,
-  update_profile_photo_route,
   Logout,
   for04_page,
 };

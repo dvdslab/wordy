@@ -2,6 +2,7 @@
 
 const { Post } = require("../models/post");
 const UserModel = require("../models/User");
+const mongoose = require("mongoose");
 
 const get_new_post_form = async (req, res) => {
   let login = false;
@@ -40,18 +41,26 @@ const get_single_post = async (req, res) => {
   }
 
   const id = req.params.id;
-  Post.findById(id)
-    .populate("author")
-    .then((post) => {
-      res.render("post", {
-        post,
-        login,
-        currentUser,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+
+  if (mongoose.isValidObjectId(id)) {
+    const _posts = await Post.findById(id);
+    if (!_posts) {
+      return res.redirect("/page_not_found");
+    } else {
+      _posts
+        .populate("author")
+        .then((post) => {
+          res.render("post", {
+            post,
+            login,
+            currentUser,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
 };
 
 const get_update_post_form = async (req, res) => {
@@ -64,17 +73,24 @@ const get_update_post_form = async (req, res) => {
     });
   }
   const id = req.params.id;
-  Post.findById(id)
-    .then((post) => {
-      res.render("update_post", {
-        post,
-        login,
-        currentUser,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  if (mongoose.isValidObjectId(id)) {
+    const _posts = await Post.findById(id);
+    if (!_posts) {
+      return res.redirect("/page_not_found");
+    } else {
+      Post.findById(id)
+        .then((post) => {
+          res.render("update_post", {
+            post,
+            login,
+            currentUser,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
 };
 
 const update_single_post = (req, res) => {

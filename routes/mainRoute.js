@@ -44,13 +44,6 @@ mainRouter.delete(
   mainController.delete_profile_photo_route
 );
 
-// update profile photo route
-mainRouter.put(
-  "/upload/:username",
-  isAuth,
-  mainController.update_profile_photo_route
-);
-
 // logout post request
 mainRouter.post("/logOut", mainController.Logout);
 

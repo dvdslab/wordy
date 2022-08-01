@@ -201,12 +201,13 @@
                                             enctype="multipart/form-data">
                                             <div class="modal-body bg-dark bg-opacity-50">
                                                 <% if(currentUser.avatar){ %>
+                                                <h4 class="text-white">You already have a display photo</h4>
                                                 <% } else { %>
-                                                <div class="pb-2"><input type="file" name="image"
-                                                        class="custom-file-input" id="custom" style="display: none;">
-                                                    <button class="btn btn-dark"><label class="custom-file-label"
-                                                            for="custom">Choose
-                                                            photo</label></button>
+                                                <div class="pb-2">
+                                                    <input type="file" name="image" class="custom-file-input"
+                                                        id="custom" hidden required>
+                                                    <label class="custom-file-label text-white" for="custom">Choose
+                                                        photo</label>
                                                 </div>
                                                 <div>
                                                     <button type="submit" class="btn btn-success btn-sm">Save</button>
@@ -215,8 +216,14 @@
                                             </div>
                                         </form>
                                         <div class="modal-footer bg-dark bg-opacity-25 border-0">
+                                            <% if(currentUser.avatar){ %>
                                             <a class="btn btn-danger btn-sm px-4 fw-bold" type=" button" id="delete"
-                                                data-postid="<%= dashboardUser.username %>">Delete</a>
+                                                data-postid="<%= dashboardUser.username %>">Delete
+                                            </a>
+                                            <% } else { %>
+                                            <button type=" button" class="btn btn-outline-danger btn-sm"
+                                                data-bs-dismiss="modal">Discard</button>
+                                            <% } %>
                                         </div>
                                     </div>
                                 </div>
@@ -283,8 +290,8 @@
     <script>
         const deleted = document.querySelector('#delete')
 
-        const Id = deleted.dataset.dashboardusername
         if (deleted) {
+            const Id = deleted.dataset.dashboardusername
             deleted.onclick = async function () {
 
                 const requ = await fetch(`/upload/${Id}`, {
