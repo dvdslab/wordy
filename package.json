@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node wordy",
     "start:dev": "nodemon wordy"
-
   },
   "keywords": [],
   "author": "",
