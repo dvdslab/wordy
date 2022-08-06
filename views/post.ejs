@@ -54,7 +54,7 @@
 
                 <ul class="nav nav-pills col-12 col-md-auto col-sm-6 mb-2 justify-content-center mb-md-0">
                     <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
-                    <li><a href="/posts/post" class="nav-link px-2 bg-white text-secondary active">Posts</a></li>
+                    <li><a class="nav-link px-2 bg-white text-secondary active">Posts</a></li>
                     <% if(login) { %>
                     <li><a href="/posts/new_post" class="nav-link px-2 text-white">New Post</a></li>
                     <% } %>
@@ -100,7 +100,7 @@
     <main>
 
         <!-- Posts -->
-        <div class="bg-black text-secondary px-4 py-5 text-start" style="min-height: 744px;">
+        <div class="bg-black text-white px-4 py-5 text-start" style="min-height: 744px;">
             <div class="py-5">
                 <h2 class=" fw-bold text-white col-lg-9 mx-auto"><%= post.title %></h2>
                 <div class="text-secondary mb-5 col-lg-9 mx-auto">
@@ -111,7 +111,7 @@
                 </div>
                 <div class="col-lg-9 px-5 py-3 mx-auto bg-dark bg-opacity-25 rounded-3 border border-secondary">
                     <div>
-                        <p class="fs-5 mb-4 text-white" style=" white-space: pre-line;"><%= post.content %></p>
+                        <p class="fs-5 mb-4"><%- post.content %></p>
                     </div>
                     <div class="d-grid gap-2 d-sm-flex justify-content-left p-3">
                         <% if(post.like.includes(currentUser._id)){ %>

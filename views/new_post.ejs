@@ -42,10 +42,13 @@
             <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
                 <a href="/"
                     class="d-flex align-items-center col-md-3 col-sm-12 mb-2 mb-md-0 text-white text-decoration-none fs-4 justify-content-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="32" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                            </svg><span class="text-white ps-1">Wordy</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="32" fill="currentColor"
+                        class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path
+                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd"
+                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                    </svg><span class="text-white ps-1">Wordy</span>
                 </a>
 
                 <ul class="nav nav-pills col-12 col-md-auto col-sm-6 mb-2 justify-content-center mb-md-0">
@@ -102,11 +105,8 @@
                         placeholder="Password" required>
                     <label for="snippet" class="text-secondary">Snippet</label>
                 </div>
-                <div class="form-floating mb-4">
-                    <textarea class="form-control bg-dark text-white border-0" placeholder="content" id="content"
-                        name="content" style="height: 246px" required></textarea>
-                    <label for="content" class="text-secondary">Content</label>
-                </div>
+                <textarea name="content" id="editor">
+                </textarea>
                 <button type="submit" class="btn btn-info">Publish</button>
             </form>
         </div>
@@ -115,11 +115,19 @@
     <!-- footer -->
     <%- include('../partials/footer') %>
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
     <script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
     </script>
-
-
 </body>
 
 </html>
