@@ -66,8 +66,7 @@
                     <div class="col-md-3 dropdown text-end">
                         <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<%= currentUser.avatar %>" alt="" width="32" height="32"
-                                class="rounded-circle">
+                            <img src="<%= currentUser.avatar %>" alt="" width="32" height="32" class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end text-small text-center"
                             aria-labelledby=" dropdownUser1">
@@ -153,9 +152,31 @@
                     </div>
                 </div>
             </div>
-
             <%  }) %>
         </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center text-white">
+                <li class="page-item">
+                    <a class="page-link bg-dark bg-opacity-25 border-end-0 border-secondary text-white" href="?page="
+                        aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <% for (let a = 1; a <= pages; a++){ %>
+                <li class="page-item"><a
+                        class="page-link bg-dark bg-opacity-25 border-start-0 border-end-0 text-white border-secondary"
+                        href="?page=<%= a; %>"><%= a %></a></li>
+                <% } %>
+                <li class="page-item">
+                    <a class="page-link bg-dark bg-opacity-25 border-start-0 text-white border-secondary"
+                        href="?page=<%= pages; %>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
         <!-- footer -->
         <%- include('../partials/footer') %>
     </main>

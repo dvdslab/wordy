@@ -2,7 +2,9 @@
     <footer class="py-3">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3 ">
             <li class="nav-item"><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+            <% if(login){ %>
             <li class="nav-item"><a href="/posts/new_post" class="nav-link px-2 link-secondary">New Post</a></li>
+            <%}%>
             <!-- <li class="nav-item"><a href="#" class="nav-link px-2 link-secondary">Pricing</a></li> -->
             <li class="nav-item"><a href="/about" class="nav-link px-2 link-secondary">About Us</a></li>
             <!-- <li class="nav-item"><a href="#" class="nav-link px-2 link-secondary">About</a></li> -->

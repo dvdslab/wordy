@@ -7,9 +7,14 @@ const cloudinary = require("../utils/cloudinary");
 const upload = require("../utils/multer");
 
 // homepage route
-const homepage_route = async (req, res) => {
+const homepage_route = async (req, res, next) => {
   let login = false;
   let currentUser = {};
+  let perPage = 12;
+  let pageNumber = req.query.page == null ? 1 : req.query.page;
+  let total = await Post.count();
+  let pages = Math.ceil(total / perPage);
+  let startFrom = pageNumber > 0 ? (pageNumber - 1) * perPage : 0;
   if (req.session.user) {
     login = true;
     currentUser = await UserModel.findOne({
@@ -20,16 +25,31 @@ const homepage_route = async (req, res) => {
   Post.find()
     .populate("author")
     .sort({ createdAt: -1 })
+    .skip(startFrom)
+    .limit(perPage)
     .then((posts) => {
       res.render("home", {
         posts,
         login,
         currentUser,
+        pages,
       });
     })
     .catch((error) => {
       console.log(error);
     });
+  // .exec((err, posts) => {
+  //   Post.count().exec((err, count) => {
+  //     if (err) return next(err);
+  //     res.render("home", {
+  //       posts,
+  //       login,
+  //       currentUser,
+  //       current: page,
+  //       pages: Math.ceil(count / perPage),
+  //     });
+  //   });
+  // });
 };
 
 //  About route
@@ -172,8 +192,17 @@ const SigningUp = async (req, res) => {
 };
 // dashboard route
 const dashboard_route = async (req, res) => {
+  let perPage = 12;
+  let pageNumber = req.query.page == null ? 1 : req.query.page;
+  let total = await Post.count();
+  let pages = Math.ceil(total / perPage);
+  let startFrom = pageNumber > 0 ? (pageNumber - 1) * perPage : 0;
   const anyUser = req.params.username;
   const dashboardUser = await UserModel.findOne({ username: anyUser });
+  let login = false;
+  if (req.session.user) {
+    login = true;
+  }
   const currentUser = await UserModel.findOne({
     username: req.session.user.username,
   });
@@ -189,14 +218,20 @@ const dashboard_route = async (req, res) => {
     };
     const author = dashboardUser._id;
     omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
+    const postCount = await Post.find({ author: omo }).count();
     Post.find({ author: omo })
       .populate("author")
       .sort({ createdAt: -1 })
+      .skip(startFrom)
+      .limit(perPage)
       .then((posts) => {
         return res.status(200).render("dashboard", {
           currentUser,
           posts,
           dashboardUser,
+          login,
+          pages,
+          postCount,
         });
       })
       .catch((error) => {
