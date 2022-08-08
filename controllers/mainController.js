@@ -194,8 +194,6 @@ const SigningUp = async (req, res) => {
 const dashboard_route = async (req, res) => {
   let perPage = 12;
   let pageNumber = req.query.page == null ? 1 : req.query.page;
-  let total = await Post.count();
-  let pages = Math.ceil(total / perPage);
   let startFrom = pageNumber > 0 ? (pageNumber - 1) * perPage : 0;
   const anyUser = req.params.username;
   const dashboardUser = await UserModel.findOne({ username: anyUser });
@@ -217,8 +215,9 @@ const dashboard_route = async (req, res) => {
       sign: "check-circle-fill",
     };
     const author = dashboardUser._id;
-    omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
+    const omo = author.toString().replace(/ObjectId\("(.*)"\)/, "$1");
     const postCount = await Post.find({ author: omo }).count();
+    let pages = Math.ceil(postCount / perPage);
     Post.find({ author: omo })
       .populate("author")
       .sort({ createdAt: -1 })
